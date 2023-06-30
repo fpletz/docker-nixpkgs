@@ -1,4 +1,5 @@
 { dockerTools
+, buildEnv
 , bashInteractive
 , cacert
 , coreutils
@@ -20,24 +21,28 @@ let
     inherit (nix) name;
     inherit uid;
 
-    contents = [
-      ./root
-      coreutils
-      # add /bin/sh
-      bashInteractive
-      nix
+    copyToRoot = buildEnv {
+      name = "nix";
+      ignoreCollisions = true;
+      paths = [
+        ./root
+        coreutils
+        # add /bin/sh
+        bashInteractive
+        nix
 
-      # runtime dependencies of nix
-      cacert
-      gitReallyMinimal
-      gnutar
-      gzip
-      openssh
-      xz
+        # runtime dependencies of nix
+        cacert
+        gitReallyMinimal
+        gnutar
+        gzip
+        openssh
+        xz
 
-      # for haskell binaries
-      iana-etc
-    ] ++ extraContents;
+        # for haskell binaries
+        iana-etc
+      ] ++ extraContents;
+    };
 
     extraCommands = ''
       # for /usr/bin/env
