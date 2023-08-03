@@ -49,8 +49,8 @@ let
       mkdir usr
       ln -s ../bin usr/bin
 
-      # make sure /tmp exists
-      mkdir -m 1777 tmp
+      # make sure /tmp & /var/tmp exist
+      mkdir -p -m 1777 tmp var/tmp
 
       # need a HOME
       mkdir -vp root
